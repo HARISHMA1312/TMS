@@ -1,8 +1,24 @@
-const book = require('../models/book');
+const Book = require('../models/book');
 
 module.exports.bookList = (req, res) => {
-  book
-    .find({})
+  Book.find({})
+    .then((data) => {
+      res.status(200).send({
+        success: true,
+        payload: data
+      });
+    })
+    .catch(() => {
+      res.status(200).send({
+        success: true,
+        payload: []
+      });
+    });
+};
+
+module.exports.fetchSingleBook = (req, res) => {
+  console.log(req.params.id);
+  Book.find({ _id: req.params.id })
     .then((data) => {
       res.status(200).send({
         success: true,
@@ -19,9 +35,9 @@ module.exports.bookList = (req, res) => {
 
 module.exports.addBook = (req, res) => {
   const bookInfo = req.body;
-  bookInfo.releaseDate = new Date(bookInfo.releaseDate);
-  book
-    .create(bookInfo)
+  console.log(req.body);
+  // bookInfo.releaseDate = new Date(bookInfo.releaseDate);
+  Book.create(bookInfo)
     .then((doc) => {
       res.status(201).send({
         success: true,
@@ -41,8 +57,7 @@ module.exports.addBook = (req, res) => {
 module.exports.updateBook = (req, res) => {
   const id = req.params.id;
   const bookInfo = req.body;
-  book
-    .updateOne({ _id: id }, bookInfo)
+  Book.updateOne({ _id: id }, bookInfo)
     .then((dbData) => {
       res.status(200).send({
         success: true,
@@ -61,8 +76,7 @@ module.exports.updateBook = (req, res) => {
 
 module.exports.deleteBook = (req, res) => {
   const id = req.params.id;
-  book
-    .deleteOne({ _id: id })
+  Book.deleteOne({ _id: id })
     .then((dbInfo) => {
       res.status(200).send({
         success: true,

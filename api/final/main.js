@@ -5,13 +5,23 @@ const {
   bookList,
   addBook,
   deleteBook,
-  updateBook
+  updateBook,
+  fetchSingleBook
 } = require('./book/controllers/book-controller');
 const app = express();
 
 app.use(bodyParser.json());
 
-app.listen(3000, (err) => {
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
+
+app.listen(3001, (err) => {
   if (err) {
     console.log('console error', err);
     return;
@@ -23,6 +33,7 @@ app.listen(3000, (err) => {
       console.log(`DB Connected`);
       app.get('/api/book/', bookList);
       app.post('/api/book/', addBook);
+      app.get('/api/book/:id', fetchSingleBook);
       app.put('/api/book/:id', updateBook);
       app.delete('/api/book/:id', deleteBook);
     })

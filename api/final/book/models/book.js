@@ -20,9 +20,9 @@ const bookSchema = new Schema(
         message: (props) => `${props.value} is not a valid url!`
       }
     },
-    releaseDate: {
-      type: Date
-    },
+    // releaseDate: {
+    //   type: Date
+    // },
     price: { type: Number, required: true }
   },
   { timestamps: true }

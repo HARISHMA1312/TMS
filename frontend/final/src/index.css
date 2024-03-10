@@ -29,3 +29,7 @@ code {
 .form-container {
   width: 50%;
 }
+
+svg:hover {
+  cursor: pointer;
+}

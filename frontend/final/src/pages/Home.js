@@ -3,13 +3,14 @@ import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import DeleteModal from '../components/DeleteModal';
 
 const url = 'http://localhost:3001/api/book';
 
 function Home() {
   const [books, setBooks] = useState([]);
-  const [bookName, setBookName] = useState('Book List');
-  const [count, setCount] = useState(0);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState({});
   const fetchBooks = () => {
     fetch(url)
       .then((response) => {
@@ -22,13 +23,28 @@ function Home() {
         setBooks([]);
       });
   };
+  const deleteBook = (id) => {
+    fetch(`${url}/${id}`, { method: 'DELETE' })
+      .then((response) => {
+        return response.json();
+      })
+      .then(() => {
+        fetchBooks();
+        setShowDeleteModal(false);
+      })
+      .catch(() => {});
+  };
+  const handleDeleteBookClick = (book) => {
+    setShowDeleteModal(true);
+    setSelectedBook({ ...book });
+  };
   useEffect(() => {
     fetchBooks();
   }, []);
   return (
     <div className='container'>
       <div className='header-container'>
-        <h1 className='mb-3 mt-5'>{bookName}</h1>
+        <h1 className='mb-3 mt-5'>Book List</h1>
         <Link to='save'>
           <Button variant='primary'>Create Book</Button>
         </Link>
@@ -64,7 +80,7 @@ function Home() {
                       </Link>
                     </td>
                     <td>
-                      <FaTrash />
+                      <FaTrash onClick={() => handleDeleteBookClick(book)} />
                     </td>
                   </tr>
                 );
@@ -72,6 +88,12 @@ function Home() {
             : null}
         </tbody>
       </Table>
+      <DeleteModal
+        showDeleteModal={showDeleteModal}
+        setShowDeleteModal={setShowDeleteModal}
+        {...selectedBook}
+        deleteBook={deleteBook}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
-const Book = require('../models/book');
+const Booking = require("../models/user")
 
-module.exports.bookList = (req, res) => {
-  Book.find({})
+module.exports.userList = (req, res) => {
+  Booking.find({})
     .then((data) => {
       res.status(200).send({
         success: true,
@@ -16,8 +16,8 @@ module.exports.bookList = (req, res) => {
     });
 };
 
-module.exports.fetchSingleBook = (req, res) => {
-  Book.find({ _id: req.params.id })
+module.exports.fetchSingleUser = (req, res) => {
+  Booking.find({ _id: req.params.id })
     .then((data) => {
       res.status(200).send({
         success: true,
@@ -32,9 +32,9 @@ module.exports.fetchSingleBook = (req, res) => {
     });
 };
 
-module.exports.addBook = (req, res) => {
-  const bookInfo = req.body;
-  Book.create(bookInfo)
+module.exports.addUser = (req, res) => {
+  const userInfo = req.body;
+  Booking.create(userInfo)
     .then((doc) => {
       res.status(201).send({
         success: true,
@@ -51,11 +51,11 @@ module.exports.addBook = (req, res) => {
     });
 };
 
-module.exports.updateBook = (req, res) => {
+module.exports.updateUser = (req, res) => {
   const id = req.params.id;
-  const bookInfo = req.body;
+  const userInfo = req.body;
   console.log(req.body);
-  Book.updateOne({ _id: id }, bookInfo)
+  Booking.updateOne({ _id: id }, userInfo)
     .then((dbData) => {
       res.status(200).send({
         success: true,
@@ -72,9 +72,9 @@ module.exports.updateBook = (req, res) => {
     });
 };
 
-module.exports.deleteBook = (req, res) => {
+module.exports.deleteUser = (req, res) => {
   const id = req.params.id;
-  Book.deleteOne({ _id: id })
+  Booking.deleteOne({ _id: id })
     .then((dbInfo) => {
       res.status(200).send({
         success: true,

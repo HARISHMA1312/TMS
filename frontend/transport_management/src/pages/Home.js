@@ -5,82 +5,82 @@ import Button from 'react-bootstrap/Button';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import DeleteModal from '../components/DeleteModal';
 
-const url = 'http://localhost:3001/api/book';
+const url = 'http://localhost:3001/api/booking';
 
 function Home() {
-  const [books, setBooks] = useState([]);
+  const [users, setUsers] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedBook, setSelectedBook] = useState({});
-  const fetchBooks = () => {
+  const [selectedUser, setSelectedUser] = useState({});
+  const fetchUsers = () => {
     fetch(url)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        setBooks(data.payload);
+        setUsers(data.payload);
       })
       .catch(() => {
-        setBooks([]);
+        setUsers([]);
       });
   };
-  const deleteBook = (id) => {
+  const deleteUser = (id) => {
     fetch(`${url}/${id}`, { method: 'DELETE' })
       .then((response) => {
         return response.json();
       })
       .then(() => {
-        fetchBooks();
+        fetchUsers();
         setShowDeleteModal(false);
       })
       .catch(() => {});
   };
-  const handleDeleteBookClick = (book) => {
+  const handleDeleteUserClick = (user) => {
     setShowDeleteModal(true);
-    setSelectedBook({ ...book });
+    setSelectedUser({ ...user });
   };
   useEffect(() => {
-    fetchBooks();
+    fetchUsers();
   }, []);
   return (
     <div className='container'>
       <div className='header-container'>
-        <h1 className='mb-3 mt-5'>Book List</h1>
+        <h1 className='mb-3 mt-5'>User List</h1>
         <Link to='save'>
-          <Button variant='primary'>Create Book</Button>
+          <Button variant='primary'>Create User</Button>
         </Link>
       </div>
 
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Book Name</th>
-            <th>Author</th>
-            <th>No Of Books</th>
-            <th>Publisher</th>
+            <th>User Name</th>
+            <th>RegNo</th>
+            <th>Address</th>
             <th>URL</th>
-            <th>Price</th>
+            <th>Pickup Place</th>
+            <th>BusNo</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          {books?.length
-            ? books.map((book) => {
+          {users?.length
+            ? users.map((user) => {
                 return (
-                  <tr key={book._id}>
-                    <td>{book.bookName}</td>
-                    <td>{book.author}</td>
-                    <td>{book.noOfBook}</td>
-                    <td>{book.publisher}</td>
-                    <td>{book.url}</td>
-                    <td>{book.price}</td>
+                  <tr key={user._id}>
+                    <td>{user.userName}</td>
+                    <td>{user.regNumber}</td>
+                    <td>{user.address}</td>
+                    <td>{user.pickupAddress}</td>
+                    <td>{user.url}</td>
+                    <td>{user.busNumber}</td>
                     <td>
-                      <Link to={`/save/${book._id}`}>
+                      <Link to={`/save/${user._id}`}>
                         <FaEdit />
                       </Link>
                     </td>
                     <td>
-                      <FaTrash onClick={() => handleDeleteBookClick(book)} />
+                      <FaTrash onClick={() => handleDeleteUserClick(user)} />
                     </td>
                   </tr>
                 );
@@ -91,8 +91,8 @@ function Home() {
       <DeleteModal
         showDeleteModal={showDeleteModal}
         setShowDeleteModal={setShowDeleteModal}
-        {...selectedBook}
-        deleteBook={deleteBook}
+        {...selectedUser}
+        deleteUser={deleteUser}
       />
     </div>
   );

@@ -2,12 +2,12 @@ const express = require('express');
 const dbHelper = require('./helpers/db-helper');
 const bodyParser = require('body-parser');
 const {
-  bookList,
-  addBook,
-  deleteBook,
-  updateBook,
-  fetchSingleBook
-} = require('./book/controllers/book-controller');
+  userList,
+  addUser,
+  deleteUser,
+  updateUser,
+  fetchSingleUser
+} = require('./user/controllers/user-controller');
 const app = express();
 
 app.use(bodyParser.json());
@@ -32,11 +32,11 @@ app.listen(3001, (err) => {
     .connection()
     .then(() => {
       console.log(`DB Connected`);
-      app.get('/api/book/', bookList);
-      app.post('/api/book/', addBook);
-      app.get('/api/book/:id', fetchSingleBook);
-      app.put('/api/book/:id', updateBook);
-      app.delete('/api/book/:id', deleteBook);
+      app.get('/api/booking/', userList);
+      app.post('/api/booking/', addUser);
+      app.get('/api/booking/:id', fetchSingleUser);
+      app.put('/api/booking/:id', updateUser);
+      app.delete('/api/booking/:id', deleteUser);
     })
     .catch((err) => {
       console.log('DB connection failed. The error is', err);

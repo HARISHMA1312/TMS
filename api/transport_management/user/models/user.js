@@ -4,12 +4,12 @@ const { Schema } = mongoose;
 const urlRegularExp =
   /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
 
-const bookSchema = new Schema(
+const userSchema = new Schema(
   {
-    bookName: { type: String, required: true, unique: true }, // String is shorthand for {type: String}
-    author: { type: String, required: true },
-    noOfBook: { type: Number, required: false },
-    publisher: { type: String, required: true },
+    userName : { type: String, required: true, unique: true }, // String is shorthand for {type: String}
+    address: { type: String, required: true },
+    busNumber: { type: Number, required: false },
+    pickupAddress: { type: String, required: true },
     url: {
       type: String,
       required: false,
@@ -20,14 +20,11 @@ const bookSchema = new Schema(
         message: (props) => `${props.value} is not a valid url!`
       }
     },
-    // releaseDate: {
-    //   type: Date
-    // },
-    price: { type: Number, required: true }
+    regNumber: { type: String, required: true }
   },
   { timestamps: true }
 );
 
-const Book = mongoose.model('book', bookSchema, 'books');
+const Booking = mongoose.model('user', userSchema, 'users');
 
-module.exports = Book;
+module.exports = Booking;

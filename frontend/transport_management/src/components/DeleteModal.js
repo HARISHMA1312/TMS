@@ -4,9 +4,9 @@ import Modal from 'react-bootstrap/Modal';
 function DeleteModal({
   showDeleteModal,
   setShowDeleteModal,
-  bookName,
+  userName,
   _id,
-  deleteBook
+  deleteUser
 }) {
   const handleClose = () => setShowDeleteModal(false);
 
@@ -19,16 +19,16 @@ function DeleteModal({
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Delete Book</Modal.Title>
+          <Modal.Title>Delete User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to delete book({bookName})?
+          Are you sure you want to delete User({userName})?
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          <Button variant='primary' onClick={() => deleteBook(_id)}>
+          <Button variant='primary' onClick={() => deleteUser(_id)}>
             Delete
           </Button>
         </Modal.Footer>
